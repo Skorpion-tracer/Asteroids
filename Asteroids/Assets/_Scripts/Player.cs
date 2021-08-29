@@ -14,6 +14,7 @@ namespace Asteroids
         [SerializeField] private float _force;
         private Camera _camera;
         private Ship _ship;
+        private Enemy[] enemies;
 
         private void Start()
         {
@@ -22,6 +23,7 @@ namespace Asteroids
             var rotation = new RotationShip(transform);
             var shoter = new Shooter(_bullet, _barrel, _force);
             _ship = new Ship(moveTransform, rotation, shoter);
+            enemies = GameObject.FindObjectsOfType<Enemy>();
         }
 
         private void Update()
@@ -43,6 +45,11 @@ namespace Asteroids
             if (Input.GetButtonDown("Fire1"))
             {
                 _ship.Shoot();
+            }
+
+            foreach (Enemy enemy in enemies)
+            {
+                enemy.Move(Random.Range(1f, 5f), transform);
             }
         }
 
