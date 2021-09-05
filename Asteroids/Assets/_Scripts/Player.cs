@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using System.Collections.Generic;
+using UnityEngine;
 
 namespace Asteroids
 {
@@ -9,21 +10,34 @@ namespace Asteroids
         [SerializeField] private float _acceleration;
         [SerializeField] private float _hp;
         [SerializeField] private Rigidbody2D _rigidbodySpaceShip;
-        [SerializeField] private Rigidbody2D _bullet;
         [SerializeField] private Transform _barrel;
-        [SerializeField] private float _force;
         private Camera _camera;
         private Ship _ship;
-        private Enemy[] enemies;
+        private Enemy[] _enemies;
+
+        private Player() { }
+
+        private static Player _instance;
+        public static Player Instance
+        {
+            get
+            {
+                if (_instance == null)
+                {
+                    _instance = new Player();
+                }
+                return _instance;
+            }
+        }
 
         private void Start()
         {
-            _camera = Camera.main;
+            _camera = Camera.main;            
             var moveTransform = new AccelerationMove(_rigidbodySpaceShip, _speed, _acceleration);
             var rotation = new RotationShip(transform);
-            var shoter = new Shooter(_bullet, _barrel, _force);
-            _ship = new Ship(moveTransform, rotation, shoter);
-            enemies = GameObject.FindObjectsOfType<Enemy>();
+            var shooter = new Shooter(_barrel);
+            _ship = new Ship(moveTransform, rotation, shooter);
+            _enemies = GameObject.FindObjectsOfType<Enemy>();
         }
 
         private void Update()
@@ -47,7 +61,7 @@ namespace Asteroids
                 _ship.Shoot();
             }
 
-            foreach (Enemy enemy in enemies)
+            foreach (Enemy enemy in _enemies)
             {
                 enemy.Move(Random.Range(1f, 5f), transform);
             }
@@ -55,7 +69,7 @@ namespace Asteroids
 
         private void FixedUpdate()
         {
-            _ship.Move(transform, Input.anyKey, Input.GetAxis("Horizontal"), Input.GetAxis("Vertical"));
+            _ship.Move(Input.anyKey, Input.GetAxis("Horizontal"), Input.GetAxis("Vertical"));
         }
 
         private void OnCollisionEnter2D(Collision2D other)

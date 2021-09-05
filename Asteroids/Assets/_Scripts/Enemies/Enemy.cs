@@ -2,18 +2,20 @@
 
 namespace Asteroids
 {
+    [RequireComponent(typeof(Rigidbody2D))]
     public abstract class Enemy : MonoBehaviour
     {
         public static IEnemyFactory Factory;
         public Health Health { get; private set; }
 
-        private static ViewServices _viewServices = new ViewServices();
+        public static ViewServices<Enemy> ViewServices = new ViewServices<Enemy>();
 
         public static Asteroid CreateAsteroidEnemy(Health hp)
         {
             var enemy = Resources.Load<Asteroid>("Enemy/Asteroid");
             enemy.Health = hp;
-            _viewServices.Instantiate(enemy);
+            enemy.transform.position = new Vector2(Random.Range(0, 2f), Random.Range(0, 4f));
+            ViewServices.Instantiate(enemy);
             return enemy;
         }
 
@@ -22,7 +24,7 @@ namespace Asteroids
             var enemy = Resources.Load<SpaceGarbage>("Enemy/SpaceGarbage");
             enemy.Health = hp;
             enemy.transform.position = new Vector2(Random.Range(0, 2f), Random.Range(0, 4f));            
-            _viewServices.Instantiate(enemy);
+            ViewServices.Instantiate(enemy);
             return enemy;
         }
 
@@ -32,5 +34,7 @@ namespace Asteroids
         }
 
         public abstract void Move(float speed, Transform transformTarget);
+
+        public abstract void Destroy();
     }
 }

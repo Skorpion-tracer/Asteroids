@@ -16,7 +16,7 @@ namespace Asteroids
             Speed = speed;
         }
 
-        public void Move(Transform transform, bool isInput, float x, float y)
+        public void Move(bool isInput, float x, float y)
         {
             _input.x = x;
             _input.y = y;
@@ -24,6 +24,7 @@ namespace Asteroids
             if (isInput == true)
             {
                 _rigidbodySpaceShip.AddForce(_input * Speed);
+                _rigidbodySpaceShip.velocity = Vector2.Lerp(_rigidbodySpaceShip.velocity, Vector2.zero, _offsetMove);
             }
             else
             {

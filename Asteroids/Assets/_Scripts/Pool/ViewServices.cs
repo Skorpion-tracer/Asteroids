@@ -6,23 +6,35 @@ using System.Threading.Tasks;
 
 namespace Asteroids
 {
-    public sealed class ViewServices
+    public sealed class ViewServices<T> 
+        where T : MonoBehaviour
     {
-        private readonly Dictionary<string, EnemiesPool> _viewCache =
-            new Dictionary<string, EnemiesPool>(12);
+        private readonly Dictionary<string, GamePullObjectsPool<T>> _viewCache =
+            new Dictionary<string, GamePullObjectsPool<T>>(20);
 
-        public void Instantiate(Enemy prefab)
+        public void Instantiate(T prefab)
         {
-            if (!_viewCache.TryGetValue(prefab.name, out EnemiesPool viewPool))
+            if (!_viewCache.TryGetValue(prefab.name, out GamePullObjectsPool<T> viewPool))
             {
-                viewPool = new EnemiesPool(prefab);
+                viewPool = new GamePullObjectsPool<T>(prefab);
                 _viewCache[prefab.name] = viewPool;
             }
 
             viewPool.Pop();
         }
 
-        public void Destroy(Enemy value)
+        public void InstantiateNotActive(T prefab)
+        {
+            if (!_viewCache.TryGetValue(prefab.name, out GamePullObjectsPool<T> viewPool))
+            {
+                viewPool = new GamePullObjectsPool<T>(prefab);
+                _viewCache[prefab.name] = viewPool;
+            }
+
+            viewPool.PopNotActive(prefab);
+        }
+
+        public void Destroy(T value)
         {
             _viewCache[value.name].Push(value);
         }

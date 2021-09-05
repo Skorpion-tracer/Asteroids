@@ -12,13 +12,14 @@ GameObject:
   - component: {fileID: 1618739425858595453}
   - component: {fileID: 1618739425858595450}
   - component: {fileID: 5320225232090542522}
+  - component: {fileID: 713068010656903308}
   m_Layer: 10
-  m_Name: Bullet
+  m_Name: Blaster
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &1618739425858595452
 Transform:
   m_ObjectHideFlags: 0
@@ -26,8 +27,8 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1618739425858595451}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -4.1000967, y: 1.8202602, z: 0}
+  m_LocalRotation: {x: 0, y: -0, z: -0.2601123, w: 0.96557844}
+  m_LocalPosition: {x: -2.7677102, y: 1.3196127, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
@@ -130,3 +131,16 @@ BoxCollider2D:
   serializedVersion: 2
   m_Size: {x: 0.28, y: 0.497195}
   m_EdgeRadius: 0
+--- !u!114 &713068010656903308
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1618739425858595451}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: aa25362a1ebc55f40ab27cbedb6f4c77, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _force: 100
