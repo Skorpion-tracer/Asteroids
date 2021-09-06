@@ -9,8 +9,7 @@ namespace Asteroids
     internal sealed class GamePullObjectsPool<T> : IDisposable 
         where T : MonoBehaviour
     {
-        public readonly Stack<T> Stack = new Stack<T>();
-
+        private readonly Stack<T> _stack = new Stack<T>();
         private readonly T _prefab;
         private readonly Transform _root;
 
@@ -20,27 +19,34 @@ namespace Asteroids
             _root = new GameObject($"[{_prefab.name}]").transform;
         }
 
-        public T Pop()
+        public T Pop(Transform transform = null)
         {
             T someObject;
-            if (Stack.Count == 0)
+            if (_stack.Count == 0)
             {
                 someObject = Object.Instantiate(_prefab);
                 someObject.name = _prefab.name;
             }
             else
             {
-                someObject = Stack.Pop();
+                someObject = _stack.Pop();
             }
 
             someObject.gameObject.SetActive(true);
+            
+            if (transform != null)
+            {
+                someObject.transform.position = transform.position;
+                someObject.transform.rotation = transform.rotation;
+            }
             someObject.transform.SetParent(null);
+
             return someObject;
         }
 
         public void Push(T someObject)
         {
-            Stack.Push(someObject);
+            _stack.Push(someObject);
             someObject.transform.SetParent(_root);
             someObject.gameObject.SetActive(false);
         }
@@ -51,14 +57,14 @@ namespace Asteroids
             someObject.name = _prefab.name;
             someObject.transform.SetParent(_root);
             someObject.gameObject.SetActive(false);
-            Stack.Push(someObject);
+            _stack.Push(someObject);
         }
 
         public void Dispose()
         {
-            for (int i = 0; i < Stack.Count; i++)
+            for (int i = 0; i < _stack.Count; i++)
             {
-                var gameObject = Stack.Pop();
+                var gameObject = _stack.Pop();
                 Object.Destroy(gameObject);
             }
             Object.Destroy(_root.gameObject);

@@ -4,6 +4,8 @@ namespace Asteroids
 {
     internal sealed class GameStarter : MonoBehaviour
     {
+        [SerializeField] private GameObject _prefab;
+
         private void Start()
         {
             IEnemyFactory factory = new AsteroidFactory();
@@ -17,7 +19,7 @@ namespace Asteroids
             Enemy.Factory.CreateSpaceGarbage(new Health(43.0f, 32.0f));
             Enemy.Factory.CreateSpaceGarbage(new Health(43.0f, 32.0f));
 
-            Projectile.CreatePoolBlasters(20);
+            Projectile.CreatePoolBlasters(20, _prefab);
         }
     }
 }

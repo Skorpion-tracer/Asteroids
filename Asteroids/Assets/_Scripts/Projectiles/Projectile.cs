@@ -18,22 +18,22 @@ namespace Asteroids
         protected static ViewServices<Blaster> _viewServices
             = new ViewServices<Blaster>();
 
-        public static Blaster CreateBlaster(Transform positionBullet)
+        public static Blaster CreateBlaster(GameObject prefab, Transform positionBullet)
         {
-            _positionBullet = positionBullet;
-            var blaster = Resources.Load<Blaster>("Projectiles/Blaster");
-            blaster.transform.position = _positionBullet.position;
-            blaster.transform.rotation = _positionBullet.rotation;
+            Blaster blaster = prefab.GetComponent<Blaster>();
+            _viewServices.Instantiate(blaster, positionBullet);
+            _positionBullet = positionBullet;                       
             _bodyBullet = blaster.gameObject.GetComponent<Rigidbody2D>();
-            _viewServices.Instantiate(blaster);
             return blaster;
         }
 
-        public static void CreatePoolBlasters(int count)
+        public static void CreatePoolBlasters(int count, GameObject prefab)
         {
+            Blaster blaster = prefab.GetComponent<Blaster>();
+            blaster.transform.position = Vector2.zero;
+            blaster.transform.rotation = Quaternion.identity;
             for (int i = 0; i < count; i++)
-            {
-                var blaster = Resources.Load<Blaster>("Projectiles/Blaster");
+            {                
                 _viewServices.InstantiateNotActive(blaster);
             }
         }

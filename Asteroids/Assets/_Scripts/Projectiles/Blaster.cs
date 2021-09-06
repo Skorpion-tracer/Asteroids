@@ -12,7 +12,7 @@ namespace Asteroids
     {
         public override void Move()
         {
-            _bodyBullet.AddForce(_positionBullet.up * _force);
+            _bodyBullet.AddForce(transform.up * _force);
         }
     }
 }

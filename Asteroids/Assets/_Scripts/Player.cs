@@ -11,31 +11,17 @@ namespace Asteroids
         [SerializeField] private float _hp;
         [SerializeField] private Rigidbody2D _rigidbodySpaceShip;
         [SerializeField] private Transform _barrel;
+        [SerializeField] private GameObject _prefabBullet;
         private Camera _camera;
         private Ship _ship;
         private Enemy[] _enemies;
-
-        private Player() { }
-
-        private static Player _instance;
-        public static Player Instance
-        {
-            get
-            {
-                if (_instance == null)
-                {
-                    _instance = new Player();
-                }
-                return _instance;
-            }
-        }
 
         private void Start()
         {
             _camera = Camera.main;            
             var moveTransform = new AccelerationMove(_rigidbodySpaceShip, _speed, _acceleration);
             var rotation = new RotationShip(transform);
-            var shooter = new Shooter(_barrel);
+            var shooter = new Shooter();
             _ship = new Ship(moveTransform, rotation, shooter);
             _enemies = GameObject.FindObjectsOfType<Enemy>();
         }
@@ -58,7 +44,7 @@ namespace Asteroids
 
             if (Input.GetButtonDown("Fire1"))
             {
-                _ship.Shoot();
+                _ship.Shoot(_prefabBullet, _barrel);
             }
 
             foreach (Enemy enemy in _enemies)

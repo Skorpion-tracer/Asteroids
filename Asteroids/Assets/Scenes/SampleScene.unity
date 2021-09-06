@@ -160,6 +160,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6d38ec11306e84a4d952c1d134205f0f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _prefab: {fileID: 1618739425858595451, guid: 9ee14c07e16feb7469ef6fd2fcdb9745, type: 3}
 --- !u!20 &519420031
 Camera:
   m_ObjectHideFlags: 0
@@ -283,9 +284,9 @@ MonoBehaviour:
   _acceleration: 10
   _hp: 100
   _rigidbodySpaceShip: {fileID: 2074241255}
-  _bullet: {fileID: 1618739425858595450, guid: 9ee14c07e16feb7469ef6fd2fcdb9745, type: 3}
   _barrel: {fileID: 760421098}
-  _force: 1000
+  _prefabBullet: {fileID: 1618739425858595451, guid: 9ee14c07e16feb7469ef6fd2fcdb9745,
+    type: 3}
 --- !u!212 &2074241253
 SpriteRenderer:
   m_ObjectHideFlags: 0

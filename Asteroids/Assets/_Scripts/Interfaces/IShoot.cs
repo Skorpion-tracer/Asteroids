@@ -1,13 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using UnityEngine;
 
 namespace Asteroids
 {
     public interface IShoot
     {
-        void Shoot();
+        void Shoot(GameObject prefab, Transform positionSpawn);
     }
 }

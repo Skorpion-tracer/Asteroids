@@ -2,7 +2,7 @@
 
 namespace Asteroids
 {
-    internal sealed class Ship : IMove, IRotation
+    internal sealed class Ship : IMove, IRotation, IShoot
     {
         private readonly IMove _moveImplementation;
         private readonly IRotation _rotationImplementation;
@@ -42,11 +42,11 @@ namespace Asteroids
             }
         }
 
-        public void Shoot()
+        public void Shoot(GameObject prefab, Transform positionSpawn)
         {
             if (_shootImplementation is Shooter shooter)
             {
-                shooter.Shoot();
+                shooter.Shoot(prefab, positionSpawn);
             }
         }
     }

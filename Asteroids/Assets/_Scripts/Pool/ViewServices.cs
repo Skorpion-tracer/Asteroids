@@ -12,7 +12,7 @@ namespace Asteroids
         private readonly Dictionary<string, GamePullObjectsPool<T>> _viewCache =
             new Dictionary<string, GamePullObjectsPool<T>>(20);
 
-        public void Instantiate(T prefab)
+        public void Instantiate(T prefab, Transform transform = null)
         {
             if (!_viewCache.TryGetValue(prefab.name, out GamePullObjectsPool<T> viewPool))
             {
@@ -20,7 +20,7 @@ namespace Asteroids
                 _viewCache[prefab.name] = viewPool;
             }
 
-            viewPool.Pop();
+            viewPool.Pop(transform);
         }
 
         public void InstantiateNotActive(T prefab)

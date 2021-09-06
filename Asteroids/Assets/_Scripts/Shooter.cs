@@ -4,18 +4,10 @@ namespace Asteroids
 {
     internal sealed class Shooter : IShoot
     {
-        private Transform _positionBullet;
-
-        public Shooter(Transform positionBullet)
+        public void Shoot(GameObject prefab, Transform positionPrefab)
         {
-            _positionBullet = positionBullet;
-        }
-
-        public void Shoot()
-        {
-            var ammunition = Projectile.CreateBlaster(_positionBullet);
+            var ammunition = Projectile.CreateBlaster(prefab, positionPrefab);
             ammunition.Move();
-            //temAmmunition.AddForce(_positionBullet.up * _force);
         }
     }
 }
