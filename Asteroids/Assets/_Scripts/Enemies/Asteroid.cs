@@ -4,6 +4,7 @@ namespace Asteroids
 {
     public sealed class Asteroid : Enemy
     {
+        private ViewServices<Asteroid> _viewServices;
         public override void Move(float speed, Transform transformTarget)
         {
             transform.position = Vector2.MoveTowards(transform.position,
@@ -18,9 +19,14 @@ namespace Asteroids
             }
         }
 
+        public void SetPool(ViewServices<Asteroid> viewServices)
+        {
+            _viewServices = viewServices;
+        }
+
         public override void Destroy()
         {
-            ViewServices.Destroy(this);
+            _viewServices.Destroy(this);
         }
     }
 }

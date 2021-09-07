@@ -160,7 +160,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6d38ec11306e84a4d952c1d134205f0f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _prefab: {fileID: 1618739425858595451, guid: 9ee14c07e16feb7469ef6fd2fcdb9745, type: 3}
+  _prefabAsteroid: {fileID: 2456638677070608628, guid: 8296401abf350a84f9cdd3954268708d,
+    type: 3}
+  _prefabSpaceGarbage: {fileID: 2456638677070608628, guid: 5a8f46a3e2d2fa44182436345c78ebeb,
+    type: 3}
 --- !u!20 &519420031
 Camera:
   m_ObjectHideFlags: 0

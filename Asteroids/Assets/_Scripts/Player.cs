@@ -15,15 +15,19 @@ namespace Asteroids
         private Camera _camera;
         private Ship _ship;
         private Enemy[] _enemies;
+        private Projectile _projectile;
 
         private void Start()
         {
             _camera = Camera.main;            
             var moveTransform = new AccelerationMove(_rigidbodySpaceShip, _speed, _acceleration);
             var rotation = new RotationShip(transform);
-            var shooter = new Shooter();
+            _projectile = _prefabBullet.GetComponent<Blaster>();
+            _projectile._bodyBullet = _prefabBullet.GetComponent<Rigidbody2D>();
+            var shooter = new Shooter(_projectile);
             _ship = new Ship(moveTransform, rotation, shooter);
             _enemies = GameObject.FindObjectsOfType<Enemy>();
+            _projectile.CreatePoolBlasters(20, _prefabBullet);
         }
 
         private void Update()

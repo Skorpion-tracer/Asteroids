@@ -4,6 +4,7 @@ namespace Asteroids
 {
     public sealed class SpaceGarbage : Enemy
     {
+        private ViewServices<SpaceGarbage> _viewServices;
         public override void Move(float speed, Transform transformTarget)
         {
             transform.position = Vector2.MoveTowards(transform.position,
@@ -18,10 +19,14 @@ namespace Asteroids
             }
         }
 
+        public void SetPool(ViewServices<SpaceGarbage> viewServices)
+        {
+            _viewServices = viewServices;
+        }
+
         public override void Destroy()
         {
-            ViewServices.Destroy(this);
-            Debug.Log("Вызов Destroy");
+            _viewServices.Destroy(this);
         }
     }
 }
