@@ -13,18 +13,38 @@ namespace Asteroids
         private ViewServices<Blaster> _viewServices;
         public override void Move()
         {
-            _bodyBullet.AddForce(transform.up * _force);
+            BodyBullet.AddForce(transform.up * _force);
+        }
+
+        private void Start()
+        {
+            _boundScreen = new BoundScreen();
+        }
+
+        private void Update()
+        {
+            Execute();
         }
 
         private void OnCollisionEnter2D(Collision2D collision)
         {
-            Debug.Log(collision.gameObject.name);
+            BodyBullet.velocity = Vector2.zero;
+            BodyBullet.AddForce(Vector2.zero);
             _viewServices.Destroy(this);
         }
 
         public void SetPool(ViewServices<Blaster> viewServices)
         {
             _viewServices = viewServices;
+        }
+
+        public override void Execute()
+        {
+            _boundScreen.Execute(transform.position);
+            if (_boundScreen.IsOnScreen == false)
+            {
+                _viewServices.Destroy(this);
+            }
         }
     }
 }

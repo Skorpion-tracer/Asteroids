@@ -23,7 +23,7 @@ namespace Asteroids
             var moveTransform = new AccelerationMove(_rigidbodySpaceShip, _speed, _acceleration);
             var rotation = new RotationShip(transform);
             _projectile = _prefabBullet.GetComponent<Blaster>();
-            _projectile._bodyBullet = _prefabBullet.GetComponent<Rigidbody2D>();
+            _projectile.BodyBullet = _prefabBullet.GetComponent<Rigidbody2D>();
             var shooter = new Shooter(_projectile);
             _ship = new Ship(moveTransform, rotation, shooter);
             _enemies = GameObject.FindObjectsOfType<Enemy>();
@@ -34,6 +34,7 @@ namespace Asteroids
         {
             var direction = Input.mousePosition -
                 _camera.WorldToScreenPoint(transform.position);
+
             _ship.Rotation(direction);
 
             if (Input.GetKeyDown(KeyCode.LeftShift))
@@ -53,7 +54,7 @@ namespace Asteroids
 
             foreach (Enemy enemy in _enemies)
             {
-                enemy.Move(Random.Range(1f, 5f), transform);
+                enemy.Move(transform);
             }
         }
 

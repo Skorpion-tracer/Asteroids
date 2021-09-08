@@ -36,7 +36,6 @@ namespace Asteroids
 
         public void Destroy(T value)
         {
-            Debug.Log(value.name);
             _viewCache[value.name].Push(value);
         }
     }

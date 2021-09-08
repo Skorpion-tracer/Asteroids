@@ -11,13 +11,17 @@ namespace Asteroids
     public abstract class Projectile : MonoBehaviour, IProjectile
     {        
         [SerializeField] protected float _force;
-        [SerializeField] public Rigidbody2D _bodyBullet;
+        
+        public Rigidbody2D BodyBullet;
 
         protected Transform _positionBullet;
-        protected ViewServices<Blaster> _viewServices = new ViewServices<Blaster>();
+        protected BoundScreen _boundScreen;
+        
+        private ViewServices<Blaster> _viewServices = new ViewServices<Blaster>();
 
         public Blaster CreateBlaster(GameObject prefab, Transform positionBullet)
         {
+            _boundScreen = new BoundScreen();
             Blaster blaster = prefab.GetComponent<Blaster>();
             blaster = _viewServices.Instantiate(blaster, positionBullet);
             _positionBullet = positionBullet;
@@ -37,5 +41,7 @@ namespace Asteroids
         }
 
         public abstract void Move();
+
+        public abstract void Execute();
     }
 }

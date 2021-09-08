@@ -5,52 +5,19 @@ namespace Asteroids
     [RequireComponent(typeof(Rigidbody2D))]
     public abstract class Enemy : MonoBehaviour
     {
+        [SerializeField] protected float _speed;
+
         public IEnemyFactory Factory;
-        public Health Health { get; private set; }
+        public Health Health { get; protected set; }
 
         public ViewServices<Asteroid> ViewServicesAsteroids = new ViewServices<Asteroid>();
         public ViewServices<SpaceGarbage> ViewServicesSpaceGarbage = new ViewServices<SpaceGarbage>();
 
-        public Asteroid CreateAsteroidEnemy(Health hp)
-        {
-            var enemy = Resources.Load<Asteroid>("Enemy/Asteroid");
-            enemy.Health = hp;
-            enemy.transform.position = new Vector2(Random.Range(0, 2f), Random.Range(0, 4f));
-            enemy = ViewServicesAsteroids.Instantiate(enemy);
-            enemy.SetPool(ViewServicesAsteroids);
-            return enemy;
-        }
+        protected BoundScreen _boundScreen;
 
-        public SpaceGarbage CreateSpaceGarbage(Health hp)
+        protected virtual void Awake()
         {
-            var enemy = Resources.Load<SpaceGarbage>("Enemy/SpaceGarbage");
-            enemy.Health = hp;
-            enemy.transform.position = new Vector2(Random.Range(0, 4f), Random.Range(0, 8f));
-            enemy = ViewServicesSpaceGarbage.Instantiate(enemy);
-            enemy.SetPool(ViewServicesSpaceGarbage);
-            return enemy;
-        }
-
-        public void CreatePoolAsteroids(int count)
-        {
-            Asteroid asteroid = Resources.Load<Asteroid>("Enemy/Asteroid");
-            asteroid.transform.position = Vector2.zero;
-            asteroid.transform.rotation = Quaternion.identity;
-            for (int i = 0; i < count; i++)
-            {
-                ViewServicesAsteroids.InstantiateNotActive(asteroid);
-            }
-        }
-
-        public void CreatePoolSpaceGarbage(int count)
-        {
-            SpaceGarbage spaceGarbage = Resources.Load<SpaceGarbage>("Enemy/SpaceGarbage");
-            spaceGarbage.transform.position = Vector2.zero;
-            spaceGarbage.transform.rotation = Quaternion.identity;
-            for (int i = 0; i < count; i++)
-            {
-                ViewServicesSpaceGarbage.InstantiateNotActive(spaceGarbage);
-            }
+            _boundScreen = new BoundScreen();
         }
 
         public void DependencyInjectHealth(Health hp)
@@ -58,8 +25,14 @@ namespace Asteroids
             Health = hp;
         }
 
-        public abstract void Move(float speed, Transform transformTarget);
+        public abstract Enemy CreateEnemy(Health hp);
+
+        public abstract void CreatePool(int count);
+
+        public abstract void Move(Transform transformTarget);
 
         public abstract void Destroy();
+
+        protected abstract void SpawnEnemy(Enemy go);
     }
 }

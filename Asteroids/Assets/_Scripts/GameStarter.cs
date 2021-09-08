@@ -7,26 +7,36 @@ namespace Asteroids
         [SerializeField] private GameObject _prefabAsteroid;
         [SerializeField] private GameObject _prefabSpaceGarbage;
 
-        private Asteroid _asteroid;
-        private SpaceGarbage _spaceGarbage;
+        private Enemy _asteroid;
+        private Enemy _spaceGarbage;
 
         private void Start()
         {
             _asteroid = _prefabAsteroid.GetComponent<Asteroid>();
             _spaceGarbage = _prefabSpaceGarbage.GetComponent<SpaceGarbage>();
-            IEnemyFactory factory = new AsteroidFactory();
 
-            _asteroid.Factory = factory;
-            _asteroid.CreatePoolAsteroids(5);
-            _asteroid.CreateAsteroidEnemy(new Health(100.0f, 100.0f));
+            _asteroid.CreatePool(5);
+            _asteroid.CreateEnemy(new Health(100.0f, 100.0f));
+            _asteroid.CreateEnemy(new Health(100.0f, 100.0f));
+            _asteroid.CreateEnemy(new Health(100.0f, 100.0f));
 
+            _spaceGarbage.CreatePool(10);
+            _spaceGarbage.CreateEnemy(new Health(43.0f, 32.0f));
+            _spaceGarbage.CreateEnemy(new Health(43.0f, 32.0f));
+            _spaceGarbage.CreateEnemy(new Health(43.0f, 32.0f));
+            _spaceGarbage.CreateEnemy(new Health(43.0f, 32.0f));
+        }
 
-            _spaceGarbage.Factory = factory;
-            _spaceGarbage.CreatePoolSpaceGarbage(10);
-            _spaceGarbage.CreateSpaceGarbage(new Health(43.0f, 32.0f));
-            _spaceGarbage.CreateSpaceGarbage(new Health(43.0f, 32.0f));
-            _spaceGarbage.CreateSpaceGarbage(new Health(43.0f, 32.0f));
-            _spaceGarbage.CreateSpaceGarbage(new Health(43.0f, 32.0f));            
+        private void Update()
+        {
+            if (Input.GetKeyDown(KeyCode.K))
+            {
+                _spaceGarbage.CreateEnemy(new Health(43, 43));
+            }
+            if (Input.GetKeyDown(KeyCode.L))
+            {
+                _asteroid.CreateEnemy(new Health(43, 43));
+            }
         }
     }
 }
