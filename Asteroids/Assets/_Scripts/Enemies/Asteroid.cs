@@ -9,7 +9,11 @@ namespace Asteroids
         public override void Move(Transform transformTarget)
         {
             transform.position = Vector2.MoveTowards(transform.position,
-                transformTarget.position, _speed * Time.deltaTime);
+                transformTarget.position, _speed * Time.deltaTime);            
+
+            var angle = Mathf.Atan2(transformTarget.position.y, transformTarget.position.x) * Mathf.Rad2Deg - 90;
+            Quaternion rotation = Quaternion.AngleAxis(angle, Vector3.forward);
+            transform.rotation = Quaternion.Slerp(transform.rotation, rotation, 3 * Time.deltaTime);
 
             _boundScreen.Execute(transform.position);
             if (_boundScreen.IsOnScreen == false)
@@ -39,7 +43,6 @@ namespace Asteroids
                 ViewServicesAsteroids.InstantiateNotActive(asteroid);
             }
         }
-
         public void SetPool(ViewServices<Asteroid> viewServices)
         {
             _viewServices = viewServices;
@@ -71,6 +74,10 @@ namespace Asteroids
                 {
                     Destroy();
                 }
+            }
+            if (collision.gameObject.TryGetComponent<Player>(out _))
+            {
+                Destroy();
             }
         }
     }

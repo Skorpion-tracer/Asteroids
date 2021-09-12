@@ -65,13 +65,18 @@ namespace Asteroids
 
         private void OnCollisionEnter2D(Collision2D other)
         {
-            if (_hp <= 0)
+            if (other.gameObject.TryGetComponent<Enemy>(out Enemy enemy))
             {
-                Destroy(gameObject);
-            }
-            else
-            {
-                _hp--;
+                _rigidbodySpaceShip.AddForce(enemy.gameObject.transform.up * 2, ForceMode2D.Impulse);
+
+                if (_hp <= 0)
+                {
+                    Destroy(gameObject);
+                }
+                else
+                {
+                    _hp--;
+                }
             }
         }
     }

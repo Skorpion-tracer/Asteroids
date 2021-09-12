@@ -3,7 +3,7 @@
 namespace Asteroids
 {
     [RequireComponent(typeof(Rigidbody2D))]
-    public abstract class Enemy : MonoBehaviour
+    public abstract class Enemy : MonoBehaviour, IEnemy
     {
         [SerializeField] protected float _speed;
 
