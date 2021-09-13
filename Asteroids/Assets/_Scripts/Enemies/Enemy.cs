@@ -14,10 +14,12 @@ namespace Asteroids
         public ViewServices<SpaceGarbage> ViewServicesSpaceGarbage = new ViewServices<SpaceGarbage>();
 
         protected BoundScreen _boundScreen;
+        protected Rigidbody2D _bodyEnemy;
 
         protected virtual void Awake()
         {
             _boundScreen = new BoundScreen();
+            _bodyEnemy = GetComponent<Rigidbody2D>();
         }
 
         public void DependencyInjectHealth(Health hp)
@@ -30,6 +32,8 @@ namespace Asteroids
         public abstract void CreatePool(int count);
 
         public abstract void Move(Transform transformTarget);
+
+        public abstract void Rotate(Vector3 direction);
 
         public abstract void Destroy();
 

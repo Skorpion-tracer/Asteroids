@@ -13,7 +13,7 @@ namespace Asteroids
         private ViewServices<Blaster> _viewServices;
         public override void Move()
         {
-            BodyBullet.AddForce(transform.up * _force);
+            BodyBullet.velocity = transform.up * _force;
         }
 
         private void Start()

@@ -54,21 +54,26 @@ namespace Asteroids
 
             foreach (Enemy enemy in _enemies)
             {
-                enemy.Move(transform);
+                enemy.Rotate(transform.position);
             }
         }
 
         private void FixedUpdate()
         {
             _ship.Move(Input.anyKey, Input.GetAxis("Horizontal"), Input.GetAxis("Vertical"));
+            foreach (Enemy enemy in _enemies)
+            {
+                enemy.Move(transform);
+            }
         }
 
         private void OnCollisionEnter2D(Collision2D other)
         {
+            float setRotationAfterCollison = 0f;
             if (other.gameObject.TryGetComponent<Enemy>(out Enemy enemy))
             {
                 _rigidbodySpaceShip.AddForce(enemy.gameObject.transform.up * 2, ForceMode2D.Impulse);
-
+                _rigidbodySpaceShip.MoveRotation(setRotationAfterCollison);
                 if (_hp <= 0)
                 {
                     Destroy(gameObject);

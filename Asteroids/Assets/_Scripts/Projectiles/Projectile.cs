@@ -11,13 +11,20 @@ namespace Asteroids
     public abstract class Projectile : MonoBehaviour, IProjectile
     {        
         [SerializeField] protected float _force;
-        
+        [SerializeField] private int _damage = 10;
+
         public Rigidbody2D BodyBullet;
 
         protected Transform _positionBullet;
         protected BoundScreen _boundScreen;
         
         private ViewServices<Blaster> _viewServices = new ViewServices<Blaster>();
+      
+        public int Damage 
+        { 
+            get => _damage; 
+            set => _damage = value; 
+        }
 
         public Blaster CreateBlaster(GameObject prefab, Transform positionBullet)
         {

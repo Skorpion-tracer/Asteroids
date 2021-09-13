@@ -8,18 +8,24 @@ namespace Asteroids
 
         public override void Move(Transform transformTarget)
         {
-            transform.position = Vector2.MoveTowards(transform.position,
-                transformTarget.position, _speed * Time.deltaTime);
-
-            var angle = Mathf.Atan2(transformTarget.position.y, transformTarget.position.x) * Mathf.Rad2Deg - 90;
-            Quaternion rotation = Quaternion.AngleAxis(angle, Vector3.forward);
-            transform.rotation = Quaternion.Slerp(transform.rotation, rotation, 3 * Time.deltaTime);
-
-            _boundScreen.Execute(transform.position);
-            if (_boundScreen.IsOnScreen == false)
+            if (gameObject.activeInHierarchy)
             {
-                Destroy();
+                _bodyEnemy.velocity = transform.up * _speed;
+
+                _boundScreen.Execute(transform.position);
+                if (_boundScreen.IsOnScreen == false)
+                {
+                    Destroy();
+                }
             }
+        }
+
+        public override void Rotate(Vector3 direction)
+        {
+            var thisDirection = direction - transform.position;
+            var angle = Mathf.Atan2(thisDirection.y, thisDirection.x) * Mathf.Rad2Deg - 90;
+            Quaternion rotation = Quaternion.AngleAxis(angle, Vector3.forward);
+            transform.rotation = Quaternion.Slerp(transform.rotation, rotation, _speed * Time.deltaTime);
         }
 
         public override Enemy CreateEnemy(Health hp)
@@ -61,9 +67,9 @@ namespace Asteroids
 
         private void OnCollisionEnter2D(Collision2D collision)
         {
-            if (collision.gameObject.TryGetComponent<IProjectile>(out _))
+            if (collision.gameObject.TryGetComponent<IProjectile>(out IProjectile projectile))
             {
-                Health.Current -= 10;
+                Health.Current -= projectile.Damage;
                 if (Health.Current <= 0)
                 {
                     Destroy();
