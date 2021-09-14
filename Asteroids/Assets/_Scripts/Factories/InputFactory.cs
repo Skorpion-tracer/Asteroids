@@ -3,7 +3,7 @@ using UnityEngine;
 
 namespace Asteroids.Abstract_Factory
 {
-    internal sealed class InputFactory
+    public sealed class InputFactory
     {
         public IInput CreateInput(RuntimePlatform platform)
         {

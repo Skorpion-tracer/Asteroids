@@ -7,7 +7,7 @@ namespace Asteroids
     {
         [SerializeField] protected float _speed;
 
-        public IEnemyFactory Factory;
+        public float ForceHit;
         public Health Health { get; protected set; }
 
         public ViewServices<Asteroid> ViewServicesAsteroids = new ViewServices<Asteroid>();
@@ -31,7 +31,7 @@ namespace Asteroids
 
         public abstract void CreatePool(int count);
 
-        public abstract void Move(Transform transformTarget);
+        public abstract void Move();
 
         public abstract void Rotate(Vector3 direction);
 

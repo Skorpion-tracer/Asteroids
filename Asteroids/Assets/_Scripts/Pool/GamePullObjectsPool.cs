@@ -1,12 +1,11 @@
 ﻿using System;
-using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using Object = UnityEngine.Object;
 
 namespace Asteroids
 {
-    internal sealed class GamePullObjectsPool<T> : IDisposable 
+    public sealed class GamePullObjectsPool<T> : IDisposable 
         where T : MonoBehaviour
     {
         private readonly Stack<T> _stack = new Stack<T>();

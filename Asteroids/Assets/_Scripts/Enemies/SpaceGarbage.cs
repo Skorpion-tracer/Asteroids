@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using System.Collections.Generic;
+using UnityEngine;
 
 namespace Asteroids
 {
@@ -6,7 +7,9 @@ namespace Asteroids
     {
         private ViewServices<SpaceGarbage> _viewServices;
 
-        public override void Move(Transform transformTarget)
+        private Queue<SpaceGarbage> _queueEnemy = new Queue<SpaceGarbage>();
+
+        public override void Move()
         {
             if (gameObject.activeInHierarchy)
             {
@@ -32,10 +35,16 @@ namespace Asteroids
         {            
             var enemy = Resources.Load<SpaceGarbage>("Enemy/SpaceGarbage"); 
             enemy = ViewServicesSpaceGarbage.Instantiate(enemy);
-            enemy.transform.position = new Vector2(Random.Range(0, 2f), Random.Range(0, 4f));
             enemy.Health = hp;
+            SpawnEnemy(enemy);
             enemy.SetPool(ViewServicesSpaceGarbage);
+            _queueEnemy.Enqueue(enemy);
             return enemy;
+        }
+
+        public Queue<SpaceGarbage> Get()
+        {
+            return _queueEnemy;
         }
 
         public override void CreatePool(int count)
@@ -48,6 +57,7 @@ namespace Asteroids
             {
                 ViewServicesSpaceGarbage.InstantiateNotActive(spaceGarbage);
             }
+            spaceGarbage.SetPool(ViewServicesSpaceGarbage);
         }
 
         public void SetPool(ViewServices<SpaceGarbage> viewServices)
@@ -57,12 +67,24 @@ namespace Asteroids
 
         public override void Destroy()
         {
+            if (_queueEnemy.Count != 0)
+            {
+                _queueEnemy.Dequeue();
+            }
             _viewServices.Destroy(this);
         }
 
         protected override void SpawnEnemy(Enemy gameObject)
         {
-            throw new System.NotImplementedException();
+            float enemyPadding = Mathf.Abs(_boundScreen.Radius);
+            float heightOffset = 3.0f;
+
+            Vector2 position = Vector2.zero;
+            float minX = -_boundScreen.CameraWidth + enemyPadding;
+            float maxX = _boundScreen.CameraWidth - enemyPadding;
+            position.x = Random.Range(minX, maxX);
+            position.y = _boundScreen.CameraHeight - heightOffset;
+            gameObject.transform.position = position;
         }
 
         private void OnCollisionEnter2D(Collision2D collision)

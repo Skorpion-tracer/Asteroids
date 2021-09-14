@@ -1,10 +1,8 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 
 namespace Asteroids
 {
-    public class BoundScreen
+    public sealed class BoundScreen
     {
         public bool IsOnScreen = true;
 

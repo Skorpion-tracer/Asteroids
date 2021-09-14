@@ -2,7 +2,7 @@
 
 namespace Asteroids
 {
-    internal class MoveTransform : IMove
+    public class MoveTransform : IMove
     {
         private readonly Rigidbody2D _rigidbodySpaceShip;
         private Vector2 _input;

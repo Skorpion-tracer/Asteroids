@@ -2,7 +2,7 @@
 
 namespace Asteroids.Abstract_Factory
 {
-    internal sealed class PlatformFactory
+    public sealed class PlatformFactory
     {
         private readonly InputFactory _inputFactory;
         private readonly WindowFactory _windowFactory;

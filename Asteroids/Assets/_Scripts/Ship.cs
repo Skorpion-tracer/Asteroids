@@ -2,7 +2,7 @@
 
 namespace Asteroids
 {
-    internal sealed class Ship : IMove, IRotation, IShoot
+    public sealed class Ship : IMove, IRotation, IShoot
     {
         private readonly IMove _moveImplementation;
         private readonly IRotation _rotationImplementation;

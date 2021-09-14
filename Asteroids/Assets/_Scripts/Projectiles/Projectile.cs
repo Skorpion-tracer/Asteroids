@@ -1,9 +1,5 @@
-﻿using System;
+﻿using System.Collections.Generic;
 using UnityEngine;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Asteroids
 {
@@ -17,9 +13,10 @@ namespace Asteroids
 
         protected Transform _positionBullet;
         protected BoundScreen _boundScreen;
-        
-        private ViewServices<Blaster> _viewServices = new ViewServices<Blaster>();
-      
+        protected Queue<Blaster> _blasters = new Queue<Blaster>();
+
+        private ViewServices<Blaster> _viewServices = new ViewServices<Blaster>();        
+
         public int Damage 
         { 
             get => _damage; 
@@ -27,17 +24,24 @@ namespace Asteroids
         }
 
         public Blaster CreateBlaster(GameObject prefab, Transform positionBullet)
-        {
-            _boundScreen = new BoundScreen();
+        {    
+            if (_boundScreen == null) _boundScreen = new BoundScreen();
             Blaster blaster = prefab.GetComponent<Blaster>();
             blaster = _viewServices.Instantiate(blaster, positionBullet);
             _positionBullet = positionBullet;
             blaster.SetPool(_viewServices);
+            if (_blasters.Contains(blaster) == false)
+            {
+                _blasters.Enqueue(blaster);
+            }
+            blaster.SetBoundsScreen(_boundScreen);
+            blaster.SetQueue(_blasters);
             return blaster;
         }
 
         public void CreatePoolBlasters(int count, GameObject prefab)
         {
+            _boundScreen = new BoundScreen();
             Blaster blaster = prefab.GetComponent<Blaster>();
             blaster.transform.position = Vector2.zero;
             blaster.transform.rotation = Quaternion.identity;
@@ -47,8 +51,25 @@ namespace Asteroids
             }
         }
 
+        public Queue<Blaster> Get()
+        {
+            return _blasters;
+        }
+
         public abstract void Move();
 
         public abstract void Execute();
+
+        public abstract void Destroy();
+
+        public void SetBoundsScreen(BoundScreen boundScreen)
+        {
+            _boundScreen = boundScreen;
+        }
+
+        public void SetQueue(Queue<Blaster> blasters)
+        {
+            _blasters = blasters;
+        }
     }
 }

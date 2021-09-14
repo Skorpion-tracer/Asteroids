@@ -3,7 +3,7 @@ using UnityEngine;
 
 namespace Asteroids.Abstract_Factory
 {
-    internal sealed class WindowFactory
+    public sealed class WindowFactory
     {
         public IWindow CreateWindow(RuntimePlatform platform)
         {

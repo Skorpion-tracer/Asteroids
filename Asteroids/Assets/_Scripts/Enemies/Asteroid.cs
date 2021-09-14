@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using System.Collections.Generic;
+using UnityEngine;
 
 namespace Asteroids
 {
@@ -6,7 +7,9 @@ namespace Asteroids
     {
         private ViewServices<Asteroid> _viewServices;
 
-        public override void Move(Transform transformTarget)
+        private Queue<Asteroid> _queueEnemy = new Queue<Asteroid>();
+
+        public override void Move()
         {
             if (gameObject.activeInHierarchy)
             {
@@ -35,7 +38,13 @@ namespace Asteroids
             enemy.Health = hp;
             SpawnEnemy(enemy);
             enemy.SetPool(ViewServicesAsteroids);
+            _queueEnemy.Enqueue(enemy);
             return enemy;
+        }
+
+        public Queue<Asteroid> Get()
+        {
+            return _queueEnemy;
         }
 
         public override void CreatePool(int count)
@@ -48,6 +57,7 @@ namespace Asteroids
             {
                 ViewServicesAsteroids.InstantiateNotActive(asteroid);
             }
+            asteroid.SetPool(ViewServicesAsteroids);
         }
         public void SetPool(ViewServices<Asteroid> viewServices)
         {
@@ -56,6 +66,10 @@ namespace Asteroids
 
         public override void Destroy()
         {
+            if (_queueEnemy.Count != 0)
+            {
+                _queueEnemy.Dequeue();
+            }
             _viewServices.Destroy(this);
         }
 

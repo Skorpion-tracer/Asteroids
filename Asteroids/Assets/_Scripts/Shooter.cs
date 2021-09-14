@@ -2,7 +2,7 @@
 
 namespace Asteroids
 {
-    internal sealed class Shooter : IShoot
+    public sealed class Shooter : IShoot
     {
         private IProjectile _projectile;
         public Shooter(IProjectile projectile)

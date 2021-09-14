@@ -2,7 +2,7 @@
 
 namespace Asteroids
 {
-    internal sealed class AsteroidFactory : IEnemyFactory
+    public sealed class AsteroidFactory : IEnemyFactory
     {
         public Enemy CreateAsteroid(Health hp)
         {
