@@ -12,6 +12,9 @@ namespace Asteroids
         private SpaceGarbage _spaceGarbage;
         private Player _playerShip;
 
+        private float _timer;
+        private float _timerLimit = 5.0f;
+
         private void Start()
         {
             _asteroid = _prefabAsteroid.GetComponent<Asteroid>();
@@ -58,6 +61,16 @@ namespace Asteroids
             if (Input.GetKeyDown(KeyCode.L))
             {
                 _asteroid.CreateEnemy(new Health(43, 43));
+            }
+
+            _timer += Time.deltaTime;
+            if (_timer >= _timerLimit)
+            {
+                var asteroid = _asteroid.Clone();
+                asteroid.CreateEnemy(new Health(100.0f, 100.0f));
+                asteroid.Move();
+                asteroid.Rotate(_playerShip.transform.position);
+                _timer = 0;
             }
         }
 

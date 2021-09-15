@@ -19,8 +19,15 @@ namespace Asteroids
         private void Start()
         {
             _camera = Camera.main;
-            _projectile = _prefabBullet.GetComponent<Blaster>();
-            _projectile.BodyBullet = _prefabBullet.GetComponent<Rigidbody2D>();
+
+            var builderProjectile = new BuilderProjectile();
+
+            _projectile = builderProjectile.
+                          Prefab.
+                          Prefab(_prefabBullet).
+                          Physics.
+                          Rigidbody2D(0.3f).
+                          BoxCollider2D();
             _projectile.CreatePoolBlasters(20, _prefabBullet);
             
             var moveTransform = new AccelerationMove(_rigidbodySpaceShip, _speed, _acceleration);

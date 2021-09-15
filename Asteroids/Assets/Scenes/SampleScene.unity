@@ -164,6 +164,7 @@ MonoBehaviour:
     type: 3}
   _prefabSpaceGarbage: {fileID: 2456638677070608628, guid: 5a8f46a3e2d2fa44182436345c78ebeb,
     type: 3}
+  _player: {fileID: 2074241251}
 --- !u!20 &519420031
 Camera:
   m_ObjectHideFlags: 0

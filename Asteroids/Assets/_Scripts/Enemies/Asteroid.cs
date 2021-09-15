@@ -70,7 +70,26 @@ namespace Asteroids
             {
                 _queueEnemy.Dequeue();
             }
-            _viewServices.Destroy(this);
+            _viewServices?.Destroy(this);
+        }
+
+        public Asteroid Clone()
+        {
+            Asteroid newEnemy = default;
+            newEnemy = this.gameObject.AddComponent<Asteroid>();
+
+            newEnemy.Health = this.Health;
+            newEnemy.name = this.name;
+            newEnemy._viewServices = this._viewServices;
+            newEnemy._speed = this._speed;
+            newEnemy._bodyEnemy = this._bodyEnemy;
+            newEnemy._boundScreen = this._boundScreen;
+            newEnemy.ForceHit = this.ForceHit;
+            newEnemy._queueEnemy = this._queueEnemy;
+            newEnemy._viewServices = this._viewServices;
+            newEnemy.SetPool(this._viewServices);
+            _queueEnemy.Enqueue(newEnemy);
+            return newEnemy;
         }
 
         protected override void SpawnEnemy(Enemy gameObject)
@@ -90,6 +109,9 @@ namespace Asteroids
         {
             if (collision.gameObject.TryGetComponent<IProjectile>(out IProjectile projectile))
             {
+
+                if (this.Health == null) this.Health = new Health(100f, 100f);
+
                 Health.Current -= projectile.Damage;
                 if (Health.Current <= 0)
                 {
