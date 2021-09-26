@@ -7,10 +7,12 @@ namespace Asteroids
         [SerializeField] private GameObject _prefabAsteroid;
         [SerializeField] private GameObject _prefabSpaceGarbage;
         [SerializeField] private GameObject _player;
+        [SerializeField] private GameObject _enemyProjectile;
 
         private Asteroid _asteroid;
         private SpaceGarbage _spaceGarbage;
         private Player _playerShip;
+        private Interceptor _interceptor;
 
         private float _timer;
         private float _timerLimit = 5.0f;
@@ -32,11 +34,25 @@ namespace Asteroids
             _spaceGarbage.CreateEnemy(new Health(43.0f, 32.0f));
             _spaceGarbage.CreateEnemy(new Health(43.0f, 32.0f));
             _spaceGarbage.CreateEnemy(new Health(43.0f, 32.0f));
+
+            var blasterAttack = new BlasterAttack(_enemyProjectile);
+
+            _interceptor = Resources.Load<Interceptor>("Interceptor");            
+            _interceptor = Object.Instantiate(_interceptor,  Vector2.zero, Quaternion.identity);
+            _interceptor.SetReference(new InterceptorMoving(), blasterAttack, new Health(50, 50));
         }
 
         private void Update()
         {
             _playerShip.Execute();
+            if (_interceptor != null)
+            {
+                if (_interceptor.gameObject.activeSelf)
+                {
+                    _interceptor.Move(_interceptor.gameObject.transform, _playerShip.gameObject.transform, 5);
+                    _interceptor.Attack();
+                }
+            }
 
             foreach (Asteroid asteroid in _asteroid.Get())
             {                

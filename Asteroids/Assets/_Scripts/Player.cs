@@ -73,11 +73,16 @@ namespace Asteroids
             _ship.Move(Input.anyKey, Input.GetAxis("Horizontal"), Input.GetAxis("Vertical"));
         }
 
+        public void Hurt(float damage)
+        {
+            _hp -= damage;
+        }
+
         private void OnCollisionEnter2D(Collision2D other)
         {
+            float setRotationAfterCollison = 0f;
             if (other.gameObject.TryGetComponent<Enemy>(out Enemy enemy))
-            {
-                float setRotationAfterCollison = 0f;
+            {                
                 _rigidbodySpaceShip.AddForce(enemy.gameObject.transform.up * enemy.ForceHit, ForceMode2D.Impulse);
                 _rigidbodySpaceShip.MoveRotation(setRotationAfterCollison);
                 if (_hp <= 0)
@@ -89,6 +94,7 @@ namespace Asteroids
                     _hp--;
                 }
             }
+            _rigidbodySpaceShip.MoveRotation(setRotationAfterCollison);
         }
     }
 }
