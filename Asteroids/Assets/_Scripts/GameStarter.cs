@@ -1,4 +1,7 @@
-﻿using UnityEngine;
+﻿using Asteroids.Helper;
+using System.Collections.Generic;
+using System.IO;
+using UnityEngine;
 
 namespace Asteroids
 {
@@ -13,13 +16,26 @@ namespace Asteroids
         private SpaceGarbage _spaceGarbage;
         private Player _playerShip;
         private Interceptor _interceptor;
+        private UnitFactory _unitFactory;
 
         private float _timer;
         private float _timerLimit = 5.0f;
 
         private void Start()
         {
-            _asteroid = _prefabAsteroid.GetComponent<Asteroid>();
+            _unitFactory = new UnitFactory();
+
+            string json = File.ReadAllText(@"Assets\Unit.txt");
+            Units units = new Units();
+            units = JsonUtility.FromJson<Units>(json);
+
+            foreach (Unit unit in units.unit)
+            {
+                Bot bot = _unitFactory.CreateBot(unit);
+                Debug.Log(bot);
+            }
+
+             _asteroid = _prefabAsteroid.GetComponent<Asteroid>();
             _spaceGarbage = _prefabSpaceGarbage.GetComponent<SpaceGarbage>();
             
             _playerShip = _player.GetComponent<Player>();
